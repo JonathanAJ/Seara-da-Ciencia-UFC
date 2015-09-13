@@ -1,0 +1,91 @@
+        
+<!-- POSTS PELO METODO GET_POSTS QUE AUXILIA A FILTRAR OS POSTS
+    POR CATEGORIA, NUMERO, EXLUIR, INCLUIR... MELHOR PARA DOMINAR -->
+        <?php
+            $args = array(
+            /*  'category_name'    =>'teste 3',
+                'posts_per_page'   => 5,
+                'offset'           => 0,
+                'category'         => '',
+                'orderby'          => 'post_date',
+                'order'            => 'DESC',
+                'include'          => '',
+                'exclude'          => '',
+                'meta_key'         => '',
+                'meta_value'       => '',
+                'post_type'        => 'post',
+                'post_mime_type'   => '',
+                'post_parent'      => '',
+                'post_status'      => 'publish',
+                'suppress_filters' => true */
+                );
+         
+            $my_posts = get_posts($args);
+         
+            if( $my_posts ):
+            foreach( $my_posts as $post ) : setup_postdata($post);
+        ?>
+           <article class="post">
+            <header class="titulos">
+                <a href="<?php the_Permalink()?>">
+                    <!-- Adiciona uma imagem destacada -->
+                    <div class="imagem-post"> <?php the_post_thumbnail();?></div>
+                    <!-- Adiciona o título -->
+                    <h1 class="font-title-post"><?php the_title(); ?></h1>
+                </a>
+            </header>
+            <span class="data">Postado em <?php the_time('d/m/Y'); ?></span>
+            
+            <span class="data"><?php edit_post_link('(Editar)'); ?></span>
+            
+            <span class="texto"><?php the_excerpt(); ?></span>
+
+            <span class="data"><?php the_category() ?></span>
+
+            <!-- Puxa as informações dos comentários do Disqus -->
+            <?php comments_popup_link(); ?>
+            </article>
+
+        <?php endforeach;?>
+        <!-- NAVEGAÇÃO/OPCIONAL -->
+        <!-- <span style="text-align: center;"><?php /*if(function_exists('wp_pagenavi'))*/ { wp_pagenavi(); } ?></span> -->
+        <?php else:?>
+
+        <p>Nada encontrado.</p>
+        <?php endif; ?>        
+<!-- FIM POSTS PELO METODO GET_POSTS -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        
+<!-- POSTS PELO METODO LOOP DO WP, PEGA OS POSTS SEM DISTINÇÃO, TODOS ELES-->
+
+    <?php if(have_posts()) : while(have_posts()) : the_post();?>
+        <article class="post">
+            <header class="titulos">
+                <a href="<?php the_Permalink()?>">
+                    <!-- Adiciona uma imagem destacada -->
+                    <div class="imagem-post"> <?php the_post_thumbnail();?></div>
+                    <!-- Adiciona o título -->
+                    <h1 class="font-title-post"><?php the_title(); ?></h1>
+                </a>
+            </header>
+            <span class="data">Postado em <?php the_time('d/m/Y'); ?></span>
+            
+            <span class="data"><?php edit_post_link('(Editar)'); ?></span>
+            
+            <span class="texto"><?php the_excerpt(); ?></span>
+
+            <span class="data"><?php the_category() ?></span>
+
+            <!-- Puxa as informações dos comentários do Disqus -->
+            <?php comments_popup_link(); ?>
+        </article>
+        <?php endwhile?>
+        <!-- NAVEGAÇÃO/OPCIONAL -->
+        <!-- <span style="text-align: center;"><?php /*if(function_exists('wp_pagenavi'))*/ { wp_pagenavi(); } ?></span> -->
+        <?php else:?>
+
+        <p>Nenhum post encontrado!</p>
+
+        <?php endif;?>
+<!-- FIM POSTS PELO METODO LOOP DO WP -->
